@@ -1,28 +1,27 @@
 import React from "react";
+import MeterReadings from "../components/MeterReadingManagement/MeterReadings";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Navbar from "../components/Navbar/Navbar";
-import VirtualMeters from "../components/MeterManagement/VirtualMeters";
 
 const styles = {
   container: {
     display: "flex",
+    flexDirection: "row", // Adjusted to row to place sidebar and main content side by side
     height: "100vh",
-    // overflow: "hidden",
-    
+    overflow: "hidden",
   },
   main: {
     display: "flex",
-    // flexDirection: 'column',
-    // flexGrow: 1,
+    flexDirection: "column",
+    flexGrow: 1,
     padding: "2rem",
     overflowY: "auto",
     backgroundColor: "#f9f9f9",
-    // gap: '1rem'
   },
   content: {
     width: "100%",
-    // maxWidth: '1200px',
-    margin: "0 auto",
+    maxWidth: "1200px",
+    margin: "1rem auto",
     backgroundColor: "#fff",
     padding: "2rem",
     borderRadius: "8px",
@@ -35,18 +34,19 @@ const styles = {
   },
 };
 
-const MeterPage = () => {
+const MeterReadingsPage = () => {
   return (
     <div style={styles.container}>
-      <div style={styles.content}>
+      <Sidebar />
+      <div style={styles.main}>
         <Navbar />
-        <div style={styles.main}>
-          <Sidebar />
-          <VirtualMeters />
+        <div style={styles.content}>
+          <h1 style={styles.header}>Meter Readings Management</h1>
+          <MeterReadings />
         </div>
       </div>
     </div>
   );
 };
 
-export default MeterPage;
+export default MeterReadingsPage;
