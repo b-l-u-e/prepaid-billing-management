@@ -1,5 +1,13 @@
 # prepaid-billing-management
 
+### Collaborators for the backend part are 
+1. Lewis Kori - korilewis958@gmail.com - 0714086394
+2. Benson Gathu - bensongathu23@gmail.com - 0703446950
+
+### For the frontend part
+1: Winnie Gitau (that's me!) - winniegitau56@gmail.com or winnie.gitau@student.moringaschool.com - 0721540981
+
+
 ## Frontend Application
 
 ### Overview
@@ -54,3 +62,11 @@ This is the backend application for the Meter Management System, built with Node
    cd your-repo/frontend`
 
 2. Install dependencies: `npm install`
+
+3. Configure the database:
+
+Update the `config/db.js` file with yout MongoDB connection details
+
+4: Running the application: `npm start`
+
+
