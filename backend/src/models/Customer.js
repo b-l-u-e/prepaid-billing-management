@@ -1,15 +1,9 @@
-import mongoose, { Document, Schema } from 'mongoose';
-import { generateRandomId } from '../utils/idGenerator';
+const mongoose = require('mongoose');
+const generateRandomId = require('../utils/idGenerator');
 
-export interface ICustomer extends Document {
-  customerId: string;
-  name: string;
-  address: string;
-  email: string;
-  phoneNumber: string;
-}
+const Schema = mongoose.Schema;
 
-const CustomerSchema: Schema = new Schema({
+const CustomerSchema = new Schema({
   customerId: { type: String, unique: true },
   name: { type: String, required: true },
   address: { type: String, required: true },
@@ -26,4 +20,4 @@ CustomerSchema.pre('save', async function(next) {
   next();
 });
 
-export default mongoose.model<ICustomer>('Customer', CustomerSchema);
+module.exports = mongoose.model('Customer', CustomerSchema);

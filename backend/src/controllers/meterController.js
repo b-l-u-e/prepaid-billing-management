@@ -1,37 +1,35 @@
-import { Request, Response } from 'express';
-import Meter from '../models/Meter';
-import mongoose from 'mongoose';
-import Customer from '../models/Customer';
+const Meter = require('../models/Meter');
+const mongoose = require('mongoose');
+const Customer = require('../models/Customer');
 
-export const getMeters = async (req: Request, res: Response) => {
+exports.getMeters = async (req, res) => {
   try {
     const meters = await Meter.find().populate('readings');
     res.json(meters);
-  } catch (err: any) {
+  } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
 };
 
-export const getMeterById = async (req: Request, res: Response) => {
+exports.getMeterById = async (req, res) => {
   try {
     const meter = await Meter.findById(req.params.id).populate('readings');
     if (!meter) {
       return res.status(404).json({ msg: 'Meter not found' });
     }
     res.json(meter);
-  } catch (err: any) {
+  } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
 };
 
-export const createMeter = async (req: Request, res: Response) => {
+exports.createMeter = async (req, res) => {
   const { customerId, location, status, balance } = req.body;
 
   console.log('Request body:', req.body);
 
-  // Validate customerId and convert to ObjectId
   if (!mongoose.Types.ObjectId.isValid(customerId)) {
     return res.status(400).json({ msg: 'Invalid customerId' });
   }
@@ -50,12 +48,13 @@ export const createMeter = async (req: Request, res: Response) => {
     const meter = await newMeter.save();
     console.log('Meter saved successfully:', meter);
     res.json(meter);
-  } catch (err:any) {
+  } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
 };
-export const updateMeter = async (req: Request, res: Response) => {
+
+exports.updateMeter = async (req, res) => {
   const { meterId, customerId, location, status, readings, balance } = req.body;
   try {
     const meter = await Meter.findById(req.params.id);
@@ -71,21 +70,21 @@ export const updateMeter = async (req: Request, res: Response) => {
 
     await meter.save();
     res.json(meter);
-  } catch (err :any) {
+  } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
 };
 
-export const deleteMeter = async (req: Request, res: Response) => {
-    try {
-      const meter = await Meter.findByIdAndDelete(req.params.id);
-      if (!meter) {
-        return res.status(404).json({ msg: 'Meter not found' });
-      }
-      res.json({ msg: 'Meter removed' });
-    } catch (err :any) {
-      console.error(err.message);
-      res.status(500).send('Server error');
+exports.deleteMeter = async (req, res) => {
+  try {
+    const meter = await Meter.findByIdAndDelete(req.params.id);
+    if (!meter) {
+      return res.status(404).json({ msg: 'Meter not found' });
     }
-  };
+    res.json({ msg: 'Meter removed' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+};

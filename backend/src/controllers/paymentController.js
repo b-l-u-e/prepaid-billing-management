@@ -1,33 +1,31 @@
-import { Request, Response } from 'express';
-import Payment from '../models/Payment';
-import Reading from '../models/Reading';
-import Meter from '../models/Meter';
+const Payment = require('../models/Payment');
+const Reading = require('../models/Reading');
+const Meter = require('../models/Meter');
 
-export const getPayments = async (req: Request, res: Response) => {
+exports.getPayments = async (req, res) => {
   try {
     const payments = await Payment.find();
     res.json(payments);
-  } catch (err:any) {
+  } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
 };
 
-export const getPaymentById = async (req: Request, res: Response) => {
+exports.getPaymentById = async (req, res) => {
   try {
     const payment = await Payment.findById(req.params.id);
     if (!payment) {
       return res.status(404).json({ msg: 'Payment not found' });
     }
     res.json(payment);
-  } catch (err :any) {
+  } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
 };
 
-
-export const createPayment = async (req: Request, res: Response) => {
+exports.createPayment = async (req, res) => {
   const { customerId, readingId, amount } = req.body;
   try {
     const reading = await Reading.findById(readingId);
@@ -52,17 +50,17 @@ export const createPayment = async (req: Request, res: Response) => {
       meter.balance -= amount;
     }
 
-    if (meter.balance < 0) meter.balance = 0;  
+    if (meter.balance < 0) meter.balance = 0;
     await meter.save();
 
     res.json(payment);
-  } catch (err: any) {
+  } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
 };
 
-export const updatePayment = async (req: Request, res: Response) => {
+exports.updatePayment = async (req, res) => {
   const { paymentId, customerId, amount, timestamp } = req.body;
   try {
     const payment = await Payment.findById(req.params.id);
@@ -76,22 +74,21 @@ export const updatePayment = async (req: Request, res: Response) => {
 
     await payment.save();
     res.json(payment);
-  } catch (err:any) {
+  } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
 };
 
-export const deletePayment = async (req: Request, res: Response) => {
-    try {
-      const payment = await Payment.findByIdAndDelete(req.params.id);
-      if (!payment) {
-        return res.status(404).json({ msg: 'Payment not found' });
-      }
-      res.json({ msg: 'Payment removed' });
-    } catch (err :any) {
-      console.error(err.message);
-      res.status(500).send('Server error');
+exports.deletePayment = async (req, res) => {
+  try {
+    const payment = await Payment.findByIdAndDelete(req.params.id);
+    if (!payment) {
+      return res.status(404).json({ msg: 'Payment not found' });
     }
-  };
-  
+    res.json({ msg: 'Payment removed' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+};

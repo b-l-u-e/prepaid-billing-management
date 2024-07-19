@@ -1,16 +1,9 @@
-import mongoose, { Document, Schema } from 'mongoose';
-import { generateRandomId } from '../utils/idGenerator';
+const mongoose = require('mongoose');
+const generateRandomId = require('../utils/idGenerator');
 
-export interface IMeter extends Document {
-  meterId: string;
-  customer: mongoose.Types.ObjectId; 
-  location: string;
-  status: string;
-  readings: mongoose.Types.ObjectId[];
-  balance: number;
-}
+const Schema = mongoose.Schema;
 
-const MeterSchema: Schema = new Schema({
+const MeterSchema = new Schema({
   meterId: { type: String, unique: true },
   customer: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer', required: true },
   location: { type: String, required: true },
@@ -28,4 +21,4 @@ MeterSchema.pre('save', async function(next) {
   next();
 });
 
-export default mongoose.model<IMeter>('Meter', MeterSchema);
+module.exports = mongoose.model('Meter', MeterSchema);

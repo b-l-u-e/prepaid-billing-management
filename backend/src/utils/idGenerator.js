@@ -1,9 +1,9 @@
-import Customer from '../models/Customer';
-import Meter from '../models/Meter';
-import Payment from '../models/Payment';
-import Reading from '../models/Reading';
+const Customer = require('../models/Customer');
+const Meter = require('../models/Meter');
+const Payment = require('../models/Payment');
+const Reading = require('../models/Reading');
 
-export const generateRandomId = async (prefix: string, model: any): Promise<string> => {
+const generateRandomId = async (prefix, model) => {
   let id = '';
   let isUnique = false;
 
@@ -16,7 +16,9 @@ export const generateRandomId = async (prefix: string, model: any): Promise<stri
   return id;
 };
 
-const checkUniqueId = async (id: string, model: any): Promise<boolean> => {
+const checkUniqueId = async (id, model) => {
   const exists = await model.exists({ customerId: id });
   return !exists;
 };
+
+module.exports = { generateRandomId };

@@ -1,14 +1,14 @@
-import { Router } from 'express';
-import {
+const express = require('express');
+const {
   getReadings,
   getReadingById,
   createReading,
   updateReading,
   deleteReading
-} from '../controllers/readingController';
-import authMiddleware from '../middlewares/authMiddleware';
+} = require('../controllers/readingController');
+const authMiddleware = require('../middlewares/authMiddleware');
 
-const router = Router();
+const router = express.Router();
 
 router.get('/', authMiddleware, getReadings);
 router.get('/:id', authMiddleware, getReadingById);
@@ -16,4 +16,4 @@ router.post('/', authMiddleware, createReading);
 router.patch('/:id', authMiddleware, updateReading);
 router.delete('/:id', authMiddleware, deleteReading);
 
-export default router;
+module.exports = router;

@@ -1,14 +1,14 @@
-import { Router } from 'express';
-import {
+const express = require('express');
+const {
   getPayments,
   getPaymentById,
   createPayment,
   updatePayment,
   deletePayment
-} from '../controllers/paymentController';
-import authMiddleware from '../middlewares/authMiddleware';
+} = require('../controllers/paymentController');
+const authMiddleware = require('../middlewares/authMiddleware');
 
-const router = Router();
+const router = express.Router();
 
 router.get('/', authMiddleware, getPayments);
 router.get('/:id', authMiddleware, getPaymentById);
@@ -16,4 +16,4 @@ router.post('/', authMiddleware, createPayment);
 router.patch('/:id', authMiddleware, updatePayment);
 router.delete('/:id', authMiddleware, deletePayment);
 
-export default router;
+module.exports = router;
