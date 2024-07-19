@@ -21,4 +21,4 @@ MeterSchema.pre('save', async function(next) {
   next();
 });
 
-module.exports = mongoose.model('Meter', MeterSchema);
+module.exports = mongoose.models.Meter || mongoose.model('Meter', MeterSchema);

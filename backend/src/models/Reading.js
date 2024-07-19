@@ -1,14 +1,7 @@
-import mongoose, { Document, Schema } from 'mongoose';
-import { generateRandomId } from '../utils/idGenerator';
+const mongoose = require('mongoose');
+const { generateRandomId } = require('../utils/idGenerator');
 
-export interface IReading extends Document {
-  readingId: string;
-  meterId: mongoose.Types.ObjectId;
-  timestamp: Date;
-  readingValue: number;
-}
-
-const ReadingSchema: Schema = new Schema({
+const ReadingSchema = new mongoose.Schema({
   readingId: { type: String, unique: true },
   meterId: { type: mongoose.Schema.Types.ObjectId, ref: 'Meter', required: true },
   timestamp: { type: Date, required: true, default: Date.now },
@@ -24,4 +17,4 @@ ReadingSchema.pre('save', async function(next) {
   next();
 });
 
-export default mongoose.model<IReading>('Reading', ReadingSchema);
+module.exports = mongoose.model('Reading', ReadingSchema);
